@@ -1,0 +1,6 @@
+"use client";
+import { useState } from "react";
+import type { AnalysisResult } from "@/lib/schemas";
+import { analysisResultToMarkdown } from "@/lib/markdown-export";
+function download(name:string,content:string,type:string){const url=URL.createObjectURL(new Blob([content],{type}));const a=document.createElement("a");a.href=url;a.download=name;a.click();URL.revokeObjectURL(url)}
+export function ExportActions({ result }: { result: AnalysisResult }) { const [copied,setCopied]=useState(false);const safe=result.scenarioUnderstanding.scenarioName.replace(/[\\/:*?"<>|]/g,"-");return <div className="export-bar"><button className="button" onClick={async()=>{await navigator.clipboard.writeText(analysisResultToMarkdown(result));setCopied(true);setTimeout(()=>setCopied(false),1600)}}>{copied?"已复制":"复制 Markdown"}</button><button className="button" onClick={()=>download(`${safe}-改造方案.md`,analysisResultToMarkdown(result),"text/markdown;charset=utf-8")}>下载 Markdown</button><button className="button" onClick={()=>download(`${safe}-改造方案.json`,JSON.stringify(result,null,2),"application/json;charset=utf-8")}>下载 JSON</button><button className="button" onClick={()=>window.scrollTo({top:0,behavior:"smooth"})}>返回顶部</button></div>; }

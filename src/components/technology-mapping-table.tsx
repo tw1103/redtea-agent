@@ -1,0 +1,3 @@
+import type { AnalysisResult } from "@/lib/schemas";
+import { DataTable, Tags } from "./ui/data-table";
+export function TechnologyMappingTable({ rows }: { rows: AnalysisResult["taskTechnologyMappings"] }) { return <DataTable headers={["任务 / 类型","推荐方式","AI","RPA","API","Python/SQL","工作流","Agent","人工控制","理由 / 前置条件","风险 / 优先级"]} rows={rows.map(x=>[<span key="task"><b>{x.taskId} · {x.taskName}</b><br/>{x.taskType}</span>,<Tags key="modes" items={x.recommendedMode}/>,x.aiRole,x.rpaRole,x.apiRole,x.pythonSqlRole,x.workflowRole,x.agentRole,x.humanReview,<span key="why">{x.rationale}<br/><span className="muted">{x.prerequisites.join("；")}</span></span>,<span key="risk" className="badge">{x.riskLevel} · {x.priority}</span>])}/>; }

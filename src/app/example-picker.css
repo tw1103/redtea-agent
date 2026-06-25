@@ -1,0 +1,6 @@
+.example-picker { margin-top: 18px; padding-top: 15px; border-top: 1px solid var(--line); }
+.example-picker > label { display: block; margin-bottom: 5px; font-size: 13px; font-weight: 700; }
+.example-picker > div { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 7px; }
+.example-picker select { width: 100%; min-width: 0; border: 1px solid #cdd5e1; border-radius: 7px; padding: 9px 10px; background: #fff; color: var(--ink); font: inherit; }
+.example-picker select:focus { outline: 3px solid rgba(36, 91, 155, .2); border-color: var(--blue); }
+@media (max-width: 440px) { .example-picker > div { grid-template-columns: 1fr; } }

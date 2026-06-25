@@ -1,0 +1,12 @@
+node_modules
+.next
+.env*
+!.env.example
+coverage
+*.log
+*.tsbuildinfo
+work/npm-cache/
+work/*.log
+work/
+outputs/*.zip
+.git-local/

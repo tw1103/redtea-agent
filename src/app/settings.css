@@ -1,0 +1,18 @@
+.hero-row { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.settings-link { border: 1px solid #b9c8da; border-radius: 7px; padding: 6px 10px; background: #fff; color: var(--blue); font-size: 13px; font-weight: 800; text-decoration: none; white-space: nowrap; }
+.settings-link:hover { background: var(--pale); }
+.settings-page { min-height: 100vh; padding: 50px 20px; background: var(--bg); }
+.settings-shell { width: min(680px, 100%); margin: auto; }
+.settings-shell header { margin: 20px 0; }
+.settings-shell h1 { margin: 3px 0; }
+.settings-shell header p { margin: 3px 0; color: var(--muted); }
+.settings-back a { color: var(--blue); font-size: 13px; text-decoration: none; }
+.settings-card { border: 1px solid var(--line); border-radius: 11px; padding: 22px; background: #fff; box-shadow: var(--shadow); }
+.config-status { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 18px; border-radius: 8px; padding: 11px 12px; background: #f4f7fa; font-size: 13px; font-weight: 700; }
+.status-dot { display: inline-block; width: 9px; height: 9px; margin-right: 7px; border-radius: 50%; background: #9ba6b5; }
+.status-dot.on { background: #2c8463; box-shadow: 0 0 0 3px #dcefe7; }
+.settings-actions { display: flex; gap: 8px; margin-top: 18px; }
+.settings-success { margin: 12px 0; border: 1px solid #b8dfcf; border-radius: 7px; padding: 10px; background: #edf8f3; color: #176247; font-size: 13px; }
+.security-note { margin-top: 20px; border-top: 1px solid var(--line); padding-top: 15px; color: var(--muted); font-size: 12px; }
+.security-note ul { margin: 5px 0; padding-left: 18px; }
+@media (max-width: 620px) { .hero-row { align-items: flex-start; flex-direction: column; } .settings-actions { align-items: stretch; flex-direction: column; } }

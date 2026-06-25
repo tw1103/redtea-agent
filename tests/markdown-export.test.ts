@@ -1,0 +1,3 @@
+import { describe,expect,it } from "vitest"; import { analysisResultToMarkdown } from "@/lib/markdown-export"; import { createMockAnalysis } from "@/lib/mock-analysis";
+const md=analysisResultToMarkdown(createMockAnalysis({analysisMode:"deep",scenarioName:"财务对账",scenarioDescription:"对账"}));
+describe("Markdown 导出",()=>{it("只包含三个核心结果章节",()=>{expect(md).toContain("## 1. 改造结论");expect(md).toContain("## 2. 可改造业务流程图");expect(md).toContain("## 3. 上下文对接与数据流转");expect(md).not.toContain("## 4.")});it("包含 AI、RPA 和两类 Mermaid 流程图",()=>{expect(md).toContain("AI 改造");expect(md).toContain("RPA 改造");expect(md.match(/```mermaid/g)?.length).toBeGreaterThanOrEqual(3);expect(md).toContain("落点：")})});

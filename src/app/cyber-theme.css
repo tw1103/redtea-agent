@@ -1,0 +1,485 @@
+/* ========================================================================== 
+   业务场景拆解 Agent · 硬核科技赛博主题
+   --------------------------------------------------------------------------
+   本文件只负责视觉覆盖，不改变任何交互逻辑、组件状态或 API 行为。
+   它必须在其他样式文件之后加载，以确保主题令牌拥有最终优先级。
+   ========================================================================== */
+
+/* 标题、正文和等宽数据字体。网络字体失败时使用系统无衬线/等宽字体回退。 */
+@import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@500;600;700;800&family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&display=swap");
+
+/* --------------------------------------------------------------------------
+   1. Design Tokens：所有页面颜色、边框、阴影和圆角均从这里派生。
+   -------------------------------------------------------------------------- */
+:root {
+  --cyber-bg: #0a0b0e;
+  --cyber-panel: rgba(12, 16, 28, 0.85);
+  --cyber-panel-solid: rgba(12, 16, 28, 0.96);
+  --cyber-cyan: #00f0ff;
+  --cyber-purple: #a855f7;
+  --cyber-pink: #ec4899;
+  --cyber-text-white: #ffffff;
+  --cyber-placeholder-gray: rgba(185, 194, 211, 0.58);
+  --cyber-border: rgba(0, 255, 255, 0.25);
+  --cyber-border-strong: rgba(0, 240, 255, 0.62);
+  --cyber-text: rgba(0, 240, 255, 0.88);
+  --cyber-text-soft: rgba(0, 240, 255, 0.58);
+  --cyber-glow: 0 0 30px rgba(0, 240, 255, 0.15);
+  --cyber-glow-strong: 0 0 22px rgba(0, 240, 255, 0.32);
+  --cyber-card-radius: 16px;
+  --cyber-pill-radius: 40px;
+
+  /* 将旧主题变量映射到新令牌，减少组件级重复覆盖。 */
+  --ink: var(--cyber-text);
+  --muted: var(--cyber-text-soft);
+  --line: var(--cyber-border);
+  --paper: var(--cyber-panel);
+  --bg: var(--cyber-bg);
+  --navy: var(--cyber-cyan);
+  --blue: var(--cyber-cyan);
+  --pale: rgba(0, 240, 255, 0.08);
+  --amber: var(--cyber-purple);
+  --amber-bg: rgba(168, 85, 247, 0.12);
+  --red: var(--cyber-pink);
+  --green: var(--cyber-cyan);
+  --shadow: var(--cyber-glow);
+}
+
+/* ========================================================================== */
+/* 全站文字颜色：所有可见文字统一使用纯白色                              */
+/* 霓虹色仍用于边框、背景、状态灯和阴影，不再用于字体或渐变文字。          */
+/* ========================================================================== */
+body,
+body * {
+  color: var(--cyber-text-white) !important;
+}
+
+/* 原渐变标题使用透明字色，此处显式还原为纯白实体文字。 */
+h1, h2, h3, h4, h5, h6,
+.brand-title,
+.hero-title,
+.gradient-text {
+  background-image: none !important;
+  background-clip: border-box !important;
+  -webkit-background-clip: border-box !important;
+  -webkit-text-fill-color: var(--cyber-text-white) !important;
+}
+
+/* 原生下拉选项保持白色；输入框占位提示使用灰色，便于区分真实输入。 */
+input::placeholder,
+textarea::placeholder,
+select,
+option {
+  color: var(--cyber-placeholder-gray) !important;
+  opacity: 1;
+}
+select,
+option {
+  color: var(--cyber-text-white) !important;
+}
+
+/* 流程图若使用 SVG 文本，同样强制采用白色。 */
+svg text,
+svg tspan {
+  fill: var(--cyber-text-white) !important;
+}
+
+/* --------------------------------------------------------------------------
+   2. 页面底层：深黑背景、科技网格和固定扫描线。
+   -------------------------------------------------------------------------- */
+html { color-scheme: dark; background: var(--cyber-bg); }
+body {
+  position: relative;
+  min-height: 100vh;
+  background-color: var(--cyber-bg) !important;
+  background-image:
+    radial-gradient(circle at 18% 16%, rgba(168, 85, 247, 0.12), transparent 30%),
+    radial-gradient(circle at 82% 8%, rgba(0, 240, 255, 0.09), transparent 26%),
+    repeating-linear-gradient(0deg, transparent 0, transparent 39px, rgba(0, 240, 255, 0.035) 40px),
+    repeating-linear-gradient(90deg, transparent 0, transparent 39px, rgba(0, 240, 255, 0.035) 40px) !important;
+  color: var(--cyber-text-white) !important;
+  font-family: "Rajdhani", sans-serif !important;
+  font-size: 17px;
+}
+
+/* 扫描线覆盖在背景之上，但不拦截鼠标或键盘操作。 */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0.16;
+  background: repeating-linear-gradient(180deg, transparent 0, transparent 3px, rgba(0, 240, 255, 0.08) 4px);
+  mix-blend-mode: screen;
+}
+
+::selection { background: var(--cyber-purple); color: var(--cyber-text-white); }
+* { scrollbar-color: var(--cyber-cyan) var(--cyber-bg); }
+
+/* --------------------------------------------------------------------------
+   3. 字体系统：标题强调未来感，数据/编号使用等宽字体。
+   -------------------------------------------------------------------------- */
+h1, h2, h3, h4, .panel-title, .roadmap-phase {
+  font-family: "Orbitron", sans-serif !important;
+  letter-spacing: 0.035em;
+}
+.eyebrow, .mini-title, .badge, .flow-tech, .process-step, .data-step,
+table, .metric b, .context-label, .status-dot + *, input, textarea, select {
+  font-family: "Share Tech Mono", monospace !important;
+}
+.hint, .muted, p, li, label, button, a { font-family: "Rajdhani", sans-serif; }
+
+/* --------------------------------------------------------------------------
+   4. 头部与导航：透明深色顶栏、霓虹渐变标题和分割线。
+   -------------------------------------------------------------------------- */
+.hero {
+  position: relative;
+  border-bottom: 0 !important;
+  padding: 34px 0 30px;
+  background: rgba(10, 11, 14, 0.78) !important;
+  backdrop-filter: blur(10px);
+}
+.hero::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--cyber-cyan), var(--cyber-purple), var(--cyber-pink), transparent);
+  box-shadow: var(--cyber-glow-strong);
+}
+.hero h1, .settings-shell h1 {
+  background: linear-gradient(90deg, var(--cyber-cyan), var(--cyber-purple), var(--cyber-pink));
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent !important;
+  text-shadow: 0 0 24px rgba(0, 240, 255, 0.18);
+}
+.eyebrow { color: var(--cyber-cyan) !important; text-shadow: 0 0 12px rgba(0, 240, 255, 0.5); }
+.subtitle, .settings-shell header p { color: var(--cyber-text-soft) !important; }
+.boundary {
+  border: 1px solid var(--cyber-border) !important;
+  border-left: 3px solid var(--cyber-purple) !important;
+  border-radius: 0 10px 10px 0;
+  background: rgba(168, 85, 247, 0.07) !important;
+  color: var(--cyber-text-soft) !important;
+}
+.anchor-nav {
+  border-color: var(--cyber-border) !important;
+  background: rgba(10, 11, 14, 0.93) !important;
+  backdrop-filter: blur(8px);
+}
+.anchor-nav a { color: var(--cyber-text-soft) !important; }
+.anchor-nav a:hover { background: rgba(0, 240, 255, 0.1) !important; color: var(--cyber-cyan) !important; }
+
+/* --------------------------------------------------------------------------
+   5. 面板与卡片：磨砂玻璃、16px 圆角和顶部科技装饰线。
+   -------------------------------------------------------------------------- */
+.panel, .card, .metric, .assumption, .agent-box, .settings-card,
+.roadmap-item, .empty-item, .decision-card, .context-node, .data-flow-row,
+.process-node, .table-wrap, .detail-disclosure {
+  border-color: var(--cyber-border) !important;
+  border-radius: var(--cyber-card-radius) !important;
+  background: var(--cyber-panel) !important;
+  box-shadow: var(--cyber-glow) !important;
+  backdrop-filter: blur(6px);
+}
+.panel, .settings-card, .process-node { position: relative; }
+.panel::before, .settings-card::before, .process-node::before {
+  content: "";
+  position: absolute;
+  top: -1px;
+  left: 22px;
+  width: 92px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--cyber-cyan), var(--cyber-purple), transparent);
+  box-shadow: 0 0 12px rgba(0, 240, 255, 0.5);
+}
+.section { border-color: var(--cyber-border) !important; }
+.section h3 { color: var(--cyber-cyan); text-shadow: 0 0 12px rgba(0, 240, 255, 0.28); }
+.empty { background: radial-gradient(circle at center, rgba(0, 240, 255, 0.055), transparent 58%); }
+.empty-mark { color: var(--cyber-cyan) !important; text-shadow: 0 0 18px var(--cyber-cyan); }
+.assumption { background: rgba(168, 85, 247, 0.09) !important; }
+.agent-box { border-color: rgba(168, 85, 247, 0.42) !important; }
+
+/* --------------------------------------------------------------------------
+   6. 按钮：透明底、胶囊轮廓、悬停发光并上浮 2px。
+   -------------------------------------------------------------------------- */
+.button, .mode-button, .settings-link {
+  min-height: 38px;
+  border: 1px solid var(--cyber-border-strong) !important;
+  border-radius: var(--cyber-pill-radius) !important;
+  background: rgba(0, 240, 255, 0.03) !important;
+  color: var(--cyber-cyan) !important;
+  font-weight: 700;
+  text-shadow: 0 0 10px rgba(0, 240, 255, 0.38);
+  transition: transform 160ms ease, background 160ms ease, box-shadow 160ms ease;
+}
+.button:hover, .mode-button:hover, .settings-link:hover {
+  transform: translateY(-2px);
+  background: rgba(0, 240, 255, 0.14) !important;
+  box-shadow: 0 0 20px rgba(0, 240, 255, 0.28) !important;
+}
+.button.primary, .mode-button.active {
+  border-color: var(--cyber-cyan) !important;
+  background: linear-gradient(90deg, rgba(0, 240, 255, 0.18), rgba(168, 85, 247, 0.18)) !important;
+  color: var(--cyber-cyan) !important;
+  box-shadow: inset 0 0 18px rgba(0, 240, 255, 0.08), 0 0 18px rgba(0, 240, 255, 0.18) !important;
+}
+.button:disabled { transform: none !important; opacity: 0.36; box-shadow: none !important; }
+
+/* --------------------------------------------------------------------------
+   7. 表单：深色输入面、青色聚焦光效、清晰占位提示。
+   -------------------------------------------------------------------------- */
+input, textarea, select, .example-picker select {
+  border: 1px solid var(--cyber-border) !important;
+  border-radius: 10px !important;
+  background: rgba(10, 11, 14, 0.82) !important;
+  color: var(--cyber-cyan) !important;
+  caret-color: var(--cyber-pink);
+}
+input::placeholder, textarea::placeholder { color: var(--cyber-placeholder-gray) !important; }
+input:focus, textarea:focus, select:focus {
+  border-color: var(--cyber-cyan) !important;
+  outline: 0 !important;
+  box-shadow: 0 0 0 2px rgba(0, 240, 255, 0.1), 0 0 20px rgba(0, 240, 255, 0.2) !important;
+}
+.field label, .example-picker > label { color: var(--cyber-text) !important; }
+.example-picker { border-color: var(--cyber-border) !important; }
+
+/* --------------------------------------------------------------------------
+   8. 状态标签、提示与反馈：青/紫/粉三色承担语义强调。
+   -------------------------------------------------------------------------- */
+.badge, .flow-tech {
+  border-color: var(--cyber-border) !important;
+  background: rgba(0, 240, 255, 0.07) !important;
+  color: var(--cyber-cyan) !important;
+  box-shadow: inset 0 0 10px rgba(0, 240, 255, 0.06);
+}
+.badge.mock, .flow-tech.ai {
+  border-color: rgba(168, 85, 247, 0.55) !important;
+  background: rgba(168, 85, 247, 0.12) !important;
+  color: var(--cyber-purple) !important;
+}
+.flow-tech.rpa, .flow-tech.api {
+  border-color: rgba(0, 240, 255, 0.58) !important;
+  background: rgba(0, 240, 255, 0.1) !important;
+  color: var(--cyber-cyan) !important;
+}
+.flow-tech.human, .human-gate, .error {
+  border-color: rgba(236, 72, 153, 0.48) !important;
+  background: rgba(236, 72, 153, 0.1) !important;
+  color: var(--cyber-pink) !important;
+}
+.flow-tech.none, .flow-tech.rule, .flow-tech.workflow {
+  border-color: rgba(168, 85, 247, 0.36) !important;
+  background: rgba(168, 85, 247, 0.07) !important;
+  color: var(--cyber-text-soft) !important;
+}
+.settings-success, .decision-banner.yes {
+  border-color: rgba(0, 240, 255, 0.4) !important;
+  background: rgba(0, 240, 255, 0.08) !important;
+  color: var(--cyber-cyan) !important;
+}
+.decision-banner.yes span, .decision-icon, .status-dot.on {
+  background: var(--cyber-cyan) !important;
+  color: var(--cyber-bg) !important;
+  box-shadow: 0 0 14px rgba(0, 240, 255, 0.55) !important;
+}
+.decision-card.yes { border-top-color: var(--cyber-cyan) !important; }
+.decision-card.no { border-top-color: var(--cyber-purple) !important; }
+.concise-conclusion, .conclusion {
+  border-color: var(--cyber-purple) !important;
+  background: rgba(168, 85, 247, 0.07) !important;
+}
+
+/* --------------------------------------------------------------------------
+   9. 流程图：节点像控制台模块，箭头与步骤编号使用霓虹青。
+   -------------------------------------------------------------------------- */
+.flow-legend, .process-node-head, .process-io, .chain,
+.config-status, .security-note, .detail-disclosure {
+  border-color: var(--cyber-border) !important;
+  background: rgba(10, 11, 14, 0.48) !important;
+}
+.process-node { border-top-color: var(--cyber-cyan) !important; }
+.process-step, .data-step {
+  background: var(--cyber-cyan) !important;
+  color: var(--cyber-bg) !important;
+  box-shadow: 0 0 16px rgba(0, 240, 255, 0.48);
+}
+.process-arrow, .context-arrow, .data-flow-row i { color: var(--cyber-cyan) !important; text-shadow: 0 0 10px var(--cyber-cyan); }
+.process-arrow span {
+  border-color: var(--cyber-border) !important;
+  background: rgba(0, 240, 255, 0.08) !important;
+  box-shadow: 0 0 14px rgba(0, 240, 255, 0.18);
+}
+.process-details { border-color: var(--cyber-border) !important; }
+.process-details summary, .detail-disclosure > summary { color: var(--cyber-cyan) !important; }
+
+/* 上下文节点按阶段使用三种主题色，不增加额外调色板。 */
+.context-node.source, .context-node.acquire { border-top-color: var(--cyber-cyan) !important; }
+.context-node.process { border-top-color: var(--cyber-purple) !important; }
+.context-node.destination, .context-node.consumer { border-top-color: var(--cyber-pink) !important; }
+.context-node.source, .context-node.acquire,
+.context-node.process, .context-node.destination, .context-node.consumer {
+  background: var(--cyber-panel) !important;
+}
+.context-node b, .data-flow-row b { color: var(--cyber-text) !important; }
+.context-node small, .data-flow-row small { color: var(--cyber-text-soft) !important; }
+.data-flow-row > div { background: rgba(0, 240, 255, 0.045) !important; }
+.data-flow-row > div.data-process { background: rgba(168, 85, 247, 0.09) !important; }
+
+/* --------------------------------------------------------------------------
+   10. 表格/仪表板：终端监控风格、等宽数据、扫描式行悬停。
+   -------------------------------------------------------------------------- */
+table { color: var(--cyber-text) !important; font-variant-numeric: tabular-nums; }
+th {
+  border-color: var(--cyber-border) !important;
+  background: rgba(0, 240, 255, 0.09) !important;
+  color: var(--cyber-cyan) !important;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+td { border-color: var(--cyber-border) !important; background: rgba(10, 11, 14, 0.22); }
+tbody tr { transition: background 140ms ease, box-shadow 140ms ease; }
+tbody tr:hover { background: rgba(0, 240, 255, 0.07); box-shadow: inset 3px 0 0 var(--cyber-cyan); }
+
+/* --------------------------------------------------------------------------
+   11. 配置页与辅助区域。
+   -------------------------------------------------------------------------- */
+.settings-page { background: transparent !important; }
+.settings-back a { color: var(--cyber-cyan) !important; }
+.security-note { color: var(--cyber-text-soft) !important; }
+.footer { color: var(--cyber-text-soft) !important; letter-spacing: 0.08em; }
+.spinner { border-color: rgba(0, 240, 255, 0.18) !important; border-top-color: var(--cyber-cyan) !important; box-shadow: 0 0 18px rgba(0, 240, 255, 0.32); }
+
+/* --------------------------------------------------------------------------
+   12. 响应式：移动端保持赛博层次，同时避免横向信息拥堵。
+   -------------------------------------------------------------------------- */
+@media (max-width: 620px) {
+  body { font-size: 16px; }
+  .hero h1 { font-size: 24px; }
+  /* 卡片圆角在窄屏仍严格保持 16px 设计令牌。 */
+  .panel, .settings-card, .card, .metric, .decision-card { border-radius: var(--cyber-card-radius) !important; }
+  .mode-tabs { gap: 5px; }
+  .mode-button { padding-inline: 5px; font-size: 12px; }
+}
+
+/* 减少动态效果偏好：保留视觉设计，但关闭位移和过渡。 */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; animation: none !important; }
+}
+
+/* ========================================================================== */
+/* 最终文字覆盖层                                                            */
+/* 放在文件末尾，确保旧组件中带 !important 的青/紫/粉文字也统一变为纯白。    */
+/* :not() 中的保留 ID 仅用于提升覆盖优先级，不会改变 DOM 或交互逻辑。        */
+/* ========================================================================== */
+body *:not(#cyber-white-text-override) {
+  color: var(--cyber-text-white) !important;
+}
+
+/* 清除标题原有的透明渐变字效果，确保文字实体为白色。 */
+body :is(h1, h2, h3, h4, h5, h6):not(#cyber-white-text-override) {
+  color: var(--cyber-text-white) !important;
+  background-image: none !important;
+  background-clip: border-box !important;
+  -webkit-background-clip: border-box !important;
+  -webkit-text-fill-color: var(--cyber-text-white) !important;
+}
+
+/* 浏览器原生占位文字单独处理：提示为灰色，真实输入仍保持白色。 */
+body :is(input, textarea):not(#cyber-white-text-override)::placeholder {
+  color: var(--cyber-placeholder-gray) !important;
+  -webkit-text-fill-color: var(--cyber-placeholder-gray) !important;
+  opacity: 1 !important;
+}
+
+/* SVG 中的流程标签不继承普通 color，需同时覆盖 fill。 */
+body svg :is(text, tspan):not(#cyber-white-text-override) {
+  fill: var(--cyber-text-white) !important;
+}
+
+/* --------------------------------------------------------------------------
+   流程图节点例外：使用低饱和深色模块，保证容器适配与内部文字可读。
+   -------------------------------------------------------------------------- */
+body .flowchart-node.terminal,
+body .flowchart-node.terminal *,
+body .flowchart-node.process-box,
+body .flowchart-node.process-box *,
+body .flowchart-node.decision-diamond,
+body .flowchart-node.decision-diamond *,
+body .flowchart-node.branch-box,
+body .flowchart-node.branch-box *,
+body .context-stack,
+body .context-stack *,
+body .stack-item,
+body .stack-item * {
+  -webkit-text-fill-color: currentColor !important;
+}
+
+body .flowchart-node.terminal {
+  border-color: rgba(226, 232, 240, 0.34) !important;
+  background: rgba(148, 163, 184, 0.13) !important;
+  color: #f8fafc !important;
+  box-shadow: none !important;
+}
+
+body .flowchart-node.process-box,
+body .flowchart-node.branch-box,
+body .context-stack.acquire,
+body .context-stack.destination,
+body .context-process {
+  border-color: rgba(125, 154, 255, 0.66) !important;
+  background: rgba(73, 91, 165, 0.28) !important;
+  color: #f8fafc !important;
+  box-shadow: inset 0 0 22px rgba(125, 154, 255, 0.08) !important;
+}
+
+body .flowchart-node.decision-diamond {
+  border-color: rgba(245, 158, 11, 0.74) !important;
+  background: rgba(245, 158, 11, 0.13) !important;
+  color: #fff7ed !important;
+  box-shadow: inset 0 0 20px rgba(245, 158, 11, 0.08) !important;
+}
+
+body .flowchart-node.terminal *,
+body .flowchart-node.process-box h4,
+body .flowchart-node.process-box b,
+body .flowchart-node.decision-diamond span,
+body .flowchart-node.branch-box b,
+body .context-stack b,
+body .stack-item b {
+  color: #f8fafc !important;
+}
+
+body .flowchart-node.process-box small,
+body .flowchart-node.branch-box small,
+body .context-stack small,
+body .stack-item small {
+  color: rgba(226, 232, 240, 0.78) !important;
+}
+
+body .context-stack.source,
+body .context-stack.consumer {
+  border-color: rgba(226, 232, 240, 0.34) !important;
+  background: rgba(148, 163, 184, 0.12) !important;
+}
+
+body .context-stack .context-label {
+  color: rgba(226, 232, 240, 0.68) !important;
+}
+
+body .flowchart-arrow {
+  background: rgba(203, 213, 225, 0.58) !important;
+  box-shadow: none !important;
+}
+
+body .flowchart-arrow::after {
+  border-color: rgba(203, 213, 225, 0.72) !important;
+}
+
+body .branch-label.yes { color: #86efac !important; }
+body .branch-label.no { color: #fca5a5 !important; }
