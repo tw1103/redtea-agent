@@ -247,7 +247,7 @@ export function displayAnalysisToResult(display: DisplayAnalysis, input: Scenari
         goal: "优先落地低风险、高重复、规则清晰的节点",
         scope: targetProcess.slice(0, 3).map((step) => step.name),
         deliverables: ["试点流程", "异常队列", "审计日志"],
-        dependencies: ["接口或 RPA 通道", "测试数据"],
+        dependencies: ["接口或 RPA 通道", "验证数据"],
         acceptanceCriteria: ["结果可渲染", "异常可接管", "日志可追溯"],
       },
     ],

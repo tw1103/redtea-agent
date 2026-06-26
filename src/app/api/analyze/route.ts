@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
 import { ScenarioInputSchema } from "@/lib/schemas";
-import { createMockAnalysis } from "@/lib/mock-analysis";
 import { AnalysisParseError, AnalysisServiceError, analyzeWithOpenAI } from "@/lib/openai";
 import { getSessionModelConfig } from "@/lib/session-model-config";
 
@@ -14,8 +13,7 @@ export async function POST(request: Request) {
   if (!input.success) return fail(400, "INVALID_INPUT", input.error.issues[0]?.message || "输入不完整");
   const sessionConfig = getSessionModelConfig(request);
   const apiKey = sessionConfig?.apiKey || process.env.OPENAI_API_KEY;
-  const useMock = (!sessionConfig && process.env.USE_MOCK_ANALYSIS === "true") || !apiKey;
-  if (useMock) return NextResponse.json({ success: true, mode: "mock", result: createMockAnalysis(input.data) });
+  if (!apiKey) return fail(400, "MODEL_NOT_CONFIGURED", "请先在模型配置页面填写并保存 API Key");
   try {
     const result = await analyzeWithOpenAI(input.data, {
       apiKey,

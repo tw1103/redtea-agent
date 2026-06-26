@@ -1,5 +1,19 @@
 import { describe, expect, it } from "vitest";
 import { AnalysisResultSchema, ScenarioInputSchema } from "@/lib/schemas";
-import { createMockAnalysis } from "@/lib/mock-analysis";
-const valid={analysisMode:"quick" as const,scenarioName:"财务对账",scenarioDescription:"核对银行流水与 ERP 账簿"};
-describe("数据 Schema",()=>{it("接受合法输入",()=>expect(ScenarioInputSchema.safeParse(valid).success).toBe(true));it("拒绝空场景名称",()=>expect(ScenarioInputSchema.safeParse({...valid,scenarioName:"  "}).success).toBe(false));it("拒绝超长输入",()=>expect(ScenarioInputSchema.safeParse({...valid,scenarioDescription:"a".repeat(20001)}).success).toBe(false));it("Mock 输出完全符合结果 Schema",()=>expect(AnalysisResultSchema.safeParse(createMockAnalysis(valid)).success).toBe(true));it("业务域分析返回多个候选场景",()=>{const result=createMockAnalysis({analysisMode:"standard",analysisScope:"domain",scenarioName:"客户服务运营",scenarioDescription:"盘点客户服务部门可用 AI 和自动化改造的机会"});expect(AnalysisResultSchema.safeParse(result).success).toBe(true);expect(result.analysisMeta.analysisScope).toBe("domain");expect(result.opportunityPortfolio.length).toBeGreaterThanOrEqual(4);expect(result.scenarioUnderstanding.businessDomain).toContain("客户服务");expect(JSON.stringify(result)).not.toContain("银行流水")});it("分数字段范围为 1 到 5",()=>{const mock=createMockAnalysis(valid);mock.valueAssessment.businessValue=6;expect(AnalysisResultSchema.safeParse(mock).success).toBe(false)})});
+
+const valid = {
+  analysisMode: "quick" as const,
+  analysisScope: "single" as const,
+  scenarioName: "客户投诉处理流程",
+  scenarioDescription: "分析客户投诉从受理到关闭的业务流程",
+};
+
+describe("数据 Schema", () => {
+  it("接受合法输入", () => expect(ScenarioInputSchema.safeParse(valid).success).toBe(true));
+
+  it("拒绝空场景名称", () => expect(ScenarioInputSchema.safeParse({ ...valid, scenarioName: "  " }).success).toBe(false));
+
+  it("拒绝超长输入", () => expect(ScenarioInputSchema.safeParse({ ...valid, scenarioDescription: "a".repeat(20001) }).success).toBe(false));
+
+  it("拒绝不完整的模型结果", () => expect(AnalysisResultSchema.safeParse({ analysisMeta: { analysisMode: "quick" } }).success).toBe(false));
+});

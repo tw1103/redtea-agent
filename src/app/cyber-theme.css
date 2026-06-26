@@ -233,7 +233,7 @@ input:focus, textarea:focus, select:focus {
   box-shadow: none !important;
 }
 
-.badge.mock, .flow-tech.ai {
+.flow-tech.ai {
   border-color: #bfdbfe !important;
   background: #eff6ff !important;
   color: var(--glacier-primary) !important;
@@ -329,6 +329,16 @@ input:focus, textarea:focus, select:focus {
 
 .mindmap-center span,
 .data-object-node span {
+  color: var(--glacier-muted) !important;
+}
+
+.data-object-node span {
+  background: #dbeafe !important;
+  color: #2563eb !important;
+}
+
+.data-object-node .data-root-label {
+  background: transparent !important;
   color: var(--glacier-muted) !important;
 }
 

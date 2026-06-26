@@ -52,15 +52,17 @@ export function ContextDataFlowView({ data }: { data: AnalysisResult["dataClosed
     <div className="data-lineage-scroll" aria-label="数据流转总图">
       <div className="data-lineage-map">
         <div className="data-object-node data-lineage-root">
-          <span>DATA</span>
+          <span className="data-root-label">DATA</span>
           <b>数据流转总链路</b>
         </div>
         {data.dataFlows.map((item) => <div className="data-lineage-unit" key={item.stepNo}>
           <div className="lineage-connector" aria-hidden="true" />
           <article className="lineage-group">
             <div className="data-object-node">
-              <span>{item.stepNo}</span>
-              <b>{item.dataObject}</b>
+              <div className="data-object-title">
+                <span>{item.stepNo}</span>
+                <b>{item.dataObject}</b>
+              </div>
             </div>
             <div className="lineage-step"><b>输入来源</b><span>{item.inputSource}</span></div>
             <div className="lineage-step"><b>处理动作</b><span>{item.processAction}</span></div>

@@ -95,7 +95,7 @@ export function ModelConfigForm() {
       setProvider(data.provider || "openai");
       setBaseUrl(data.baseUrl || DEFAULT_BASE_URLS[data.provider as ModelProvider] || "");
       setProxyUrl(data.proxyUrl || "");
-      setMessage(data.source === "environment" ? "会话配置已清除，将使用服务器环境变量。" : "会话配置已清除，将恢复 Mock 演示模式。");
+      setMessage(data.source === "environment" ? "会话配置已清除，将使用服务器环境变量。" : "会话配置已清除。继续分析前请重新配置 API Key。");
     } catch {
       setError("清除配置失败");
     } finally {
@@ -121,7 +121,7 @@ export function ModelConfigForm() {
     }
   }
 
-  const sourceText = status?.source === "session" ? "当前会话配置" : status?.source === "environment" ? "服务器环境变量" : "未配置（Mock 模式）";
+  const sourceText = status?.source === "session" ? "当前会话配置" : status?.source === "environment" ? "服务器环境变量" : "未配置";
   const providerName = provider === "deepseek" ? "DeepSeek" : "OpenAI";
 
   return <section className="settings-card">

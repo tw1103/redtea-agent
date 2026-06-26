@@ -95,4 +95,4 @@ export const AnalysisResultSchema = z.object({
 export type ScenarioInput = z.infer<typeof ScenarioInputSchema>;
 export type DisplayAnalysis = z.infer<typeof DisplayAnalysisSchema>;
 export type AnalysisResult = z.infer<typeof AnalysisResultSchema>;
-export type AnalyzeResponse = { success: true; mode: "live" | "mock"; result: AnalysisResult } | { success: false; error: { code: string; message: string } };
+export type AnalyzeResponse = { success: true; mode: "live"; result: AnalysisResult } | { success: false; error: { code: string; message: string } };
