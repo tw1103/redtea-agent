@@ -22,7 +22,13 @@ export function AnalysisResultView({ result: r, mode }: { result: AnalysisResult
       </div>
       <p className="concise-conclusion">{r.analysisMeta.overallConclusion}</p>
     </section>
-    <section className="section" id="process"><h3>02 · 可改造业务流程图</h3><p className="muted">每个节点只标注 AI、RPA 或“不使用 AI/RPA”；红色区域为人工控制点。</p><ProcessFlowView steps={r.targetProcess}/></section>
-    <section className="section" id="context-data"><h3>03 · 上下文对接与数据流转</h3><ContextDataFlowView data={r.dataClosedLoop}/></section>
+    <section className="section" id="process">
+      <div className="section-title-row"><div><h3>02 · 可改造业务流程图</h3><p className="muted">每个节点只标注 AI、RPA 或“不使用 AI/RPA”；红色区域为人工控制点。</p></div></div>
+      <div id="process-diagram-export" className="diagram-export-area"><ProcessFlowView steps={r.targetProcess}/></div>
+    </section>
+    <section className="section" id="context-data">
+      <div className="section-title-row"><h3>03 · 上下文对接与数据流转</h3></div>
+      <div id="context-data-diagram-export" className="diagram-export-area"><ContextDataFlowView data={r.dataClosedLoop}/></div>
+    </section>
   </>;
 }

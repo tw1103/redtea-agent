@@ -13,6 +13,20 @@
 .concise-conclusion { margin: 12px 0 0; border-left: 3px solid var(--blue); padding: 9px 12px; background: #f5f8fc; font-size: 13px; }
 .flow-tech.none { border-color: #aeb7c5; background: #f3f5f7; color: #5d687a; }
 .diagram-title { margin-top: 4px !important; }
+.section-title-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 12px;
+}
+.section-title-row h3,
+.section-title-row p {
+  margin-top: 0;
+}
+.diagram-export-area {
+  border-radius: 16px;
+}
 .context-flow-scroll { overflow-x: auto; padding: 2px 2px 15px; }
 .context-flow { display: flex; min-width: max-content; align-items: center; }
 .context-column { display: grid; width: 205px; gap: 7px; }
@@ -185,3 +199,8 @@
   transform: rotate(45deg);
 }
 @media (max-width: 700px) { .decision-grid { grid-template-columns: 1fr; } .data-flow-row { grid-template-columns: 30px 1fr; } .data-flow-row > i { transform: rotate(90deg); } .data-flow-row > div, .data-flow-row > i { grid-column: 2; } .data-step { grid-column: 1; grid-row: 1; } }
+@media (max-width: 700px) {
+  .section-title-row {
+    display: grid;
+  }
+}
